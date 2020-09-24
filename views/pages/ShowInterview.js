@@ -5,24 +5,24 @@ let ShowInterview = {
 
     render : async () => {
         let request = Parser.parseRequestURL()
-        let interview = await GET(`http://localhost:3000/interviews/${request.id}.json`)
+        let interviewDetails = await GET(`http://localhost:3000/interviews/${request.id}.json`)
         return /*html*/`
             <section class="section">
                 <h1>Interview Details</h1>
                 <p>
                     <p>
-                        <strong>Designation - </strong> ${interview.interview.name }<br />
-                        <strong>Interviewee Name - </strong> ${interview.interviewee.name }
-                        ${ interview.resume?("<strong><a href= \"http://localhost:3000" + interview.resume + "\">Resume</a></strong>"):"" }<br />
+                        <strong>Designation - </strong> ${interviewDetails.interview.name }<br />
+                        <strong>Interviewee Name - </strong> ${interviewDetails.interviewee.name }
+                        ${ interviewDetails.resume?("<strong><a href= " + interviewDetails.resume + ">Resume</a></strong>"):"" }<br />
 
-                        <strong>Date - </strong> ${Parser.parseDate(new Date(interview.interview.start_time))}<br />
-                        <strong>Timings - </strong> ${Parser.parseTime(new Date(interview.interview.start_time))} -  ${Parser.parseTime(new Date(interview.interview.end_time))}<br />
+                        <strong>Date - </strong> ${Parser.parseDate(interviewDetails.interview.start_time)}<br />
+                        <strong>Timings - </strong> ${Parser.parseTime(interviewDetails.interview.start_time)} -  ${Parser.parseTime(interviewDetails.interview.end_time)}<br />
                     </p>
                     <p>
                         <strong>Interviewers' Names - </strong><br />
                         <ul>
                         ${
-                            interview.interviewers.map(interviewer=>
+                            interviewDetails.interviewers.map(interviewer=>
                                 /*html*/`
                                 <p>
                                     <li>${interviewer.name}</li>

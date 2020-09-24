@@ -21,6 +21,7 @@ const Parser = {
         return new Promise(resolve => setTimeout(resolve, ms));
     },
     parseDate: (date) => {
+        date = new Date(date);
         let mon = date.getMonth() + 1;
         mon = mon.toString()
         if (mon.length == 1) mon = '0' + mon;
@@ -32,6 +33,7 @@ const Parser = {
         return `${date.getFullYear()}-${mon}-${day}`
     },
     parseTime: (date) => {
+        date = new Date(date);
         let hours = date.getHours();
         hours = hours.toString()
         if (hours.length == 1) hours = '0' + hours;
