@@ -15,12 +15,8 @@ const router = async () => {
     const content = null || document.getElementById('page_container');
     
     let request = Parser.parseRequestURL();
-
-    let parsedURL = (request.resource ? '/' + request.resource : '/') + (request.id ? '/:id' : '') + (request.verb ? '/' + request.verb : '');
-    
-    console.log("Parsed URL - " + parsedURL);
-
-    let page = routes[parsedURL] ? routes[parsedURL] : Pages.Error404
+    console.log("parsed url - " + request.route)
+    let page = routes[request.route] ? routes[request.route] : Pages.Error404
     content.innerHTML = await page.render();
     await page.after_render();
   
