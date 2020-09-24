@@ -15,6 +15,7 @@ const Parser = {
         }
         request.route = r.join('/');
         request.route = (request.route[request.route.length-1] == '/')?request.route.slice(0,-1):request.route;
+        if(!request.route)request.route = '/interviews';
         return request;
     }
     , sleep: (ms) => {

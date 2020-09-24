@@ -7,6 +7,10 @@ const routes = {
     , '/interviews/new'     : Pages.NewInterview
     , '/interviews/:id'     : Pages.ShowInterview
     , '/interviews/:id/edit': Pages.EditInterview
+    , '/users'              : Pages.ListUsers
+    , '/users/new'          : Pages.NewUser
+    , '/users/:id'          : Pages.ShowUser
+    , '/users/:id/edit'     : Pages.EditUser
 };
 
 
