@@ -1,51 +1,25 @@
 import GET from '../../GET.js'
 
-let NewInterview = {
+let NewUser = {
 
     render: async () => {
-        let users = await GET('http://localhost:3000/users.json');
-
         return /*html*/ `
             <section class="section">
-            <h1>Create a new interivew</h1>
-            <form id="new_interview">
+            <h1>Create a new user</h1>
+            <form id="new_user">
 
                 <div id="notice-field"></div>
                 <div id="errors-field"></div>
-
-                <label for="name">Designation</label>
-                <input type="text" id="name" name="name"><br />
-
                 <p>
-                    <label for="sdate">Start Date</label>
-                    <input type="date" id="sdate" name="start_date"><br />
+                    <label for="name">Name :</label>
+                    <input type="text" id="name" name="name"><br />
                 </p>
                 <p>
-                    <label for="stime">Start Time</label>
-                    <input type="time" id="etime" name="start_time"><br />
-                </p>
-                
+                    <label name="email">Email : </label>
+                    <input type="text" name="email" id="email">
+                </p>    
                 <p>
-                    <label for="etime">End Time</label>
-                    <input type="time" id="etime" name="end_time"><br />
-                </p>
-
-                <p>
-                    <label for="resume">Attach Resume (Optional)</label>
-                    <input type="file" accept="application/pdf" id="resume" name="resume"><br />
-                </p>
-
-                ${
-                    users.map(user=> /*html*/ `
-                        <input type="checkbox" name="interviewers[]" value="${user.id}">
-                        <input type="radio" name="interviewee" value="${user.id}">
-                        <label for="interviewers[${user.id}]">${user.name}</label><br>
-                    `
-                    ).join('\n')
-                }
-                
-                <p>
-                    <input type="submit" value="Create Interview">
+                    <input type="submit" value="Create User">
                 </p>
             </form>
 
@@ -60,7 +34,7 @@ let NewInterview = {
             const XHR = new XMLHttpRequest();
             const FD = new FormData( form );
         
-            XHR.open( "POST", "http://localhost:3000/interviews.json" );
+            XHR.open( "POST", "http://localhost:3000/users.json" );
             
             XHR.onreadystatechange = (event)=>{
                 if(XHR.readyState === XMLHttpRequest.DONE){
@@ -80,7 +54,7 @@ let NewInterview = {
             
             XHR.send( FD );
         }
-        const form = document.getElementById( "new_interview" );
+        const form = document.getElementById( "new_user" );
 
         form.onsubmit =  ( event ) => {
             event.preventDefault();
@@ -89,4 +63,4 @@ let NewInterview = {
     }
 }
 
-export default NewInterview
+export default NewUser

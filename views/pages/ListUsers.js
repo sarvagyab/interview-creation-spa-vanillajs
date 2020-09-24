@@ -1,39 +1,31 @@
 import GET from '../../GET.js'
 import Parser from './../../parser.js'
 
-let ListInterviews = {
+let ListUsers = {
    render : async () => {
-       let interviews = await GET(`http://localhost:3000/interviews.json/`);
-       let interviewees = {}
-       for (let i =0;i<interviews.length;i++){
-           if(!interviewees[interviews[i].user_id]){
-               interviewees[interviews[i].user_id] = await GET(`http://localhost:3000/users/${interviews[i].user_id}.json`);
-           }
-       }
+       let users = await GET(`http://localhost:3000/users.json/`);
 
        let view =  /*html*/`
             <section class="section">
-            <h1>Interviews</h1>
-            <a href="#/interviews/new">Create new Interview</a> | 
-            <a href="#/users">List Users</a>
+            <h1>Users</h1>
+            <a href="#/interviews">List Interviews</a> |
+            <a href="#/users/new">Create new Interview</a> 
             <p>
                 <div id="notice-field"></div>
                 <div id="errors-field"></div>
             </p>    
                
-               ${ interviews.map(interview => 
+               ${ users.map(user => 
                    /*html*/`
-                   <div id="interview - ${interview.id}">
-                        <h4>Interview - </h4>
+                   <div id="user - ${user.id}">
+                        <h4>User - </h4>
                         <p>
-                            <strong>Designation - </strong> ${interview.name}<br />
-                            <strong>Interviewee Name - </strong> ${interviewees[interview.user_id].name}<br />
-                            <strong>Date - </strong> ${Parser.parseDate(new Date(interview.start_time))}<br />
-                            <strong>Timings - </strong> ${Parser.parseTime(new Date(interview.start_time))} - ${Parser.parseTime(new Date(interview.end_time))}<br />
+                            <strong>Name - </strong> ${user.name}<br />
+                            <strong>Email - </strong> ${user.email}<br />
                         </p>
-                        <a href="#/interviews/${interview.id}">Show</a> | 
-                        <a href="#/interviews/${interview.id}/edit">Edit</a> |
-                        <a href="#/interviews" class="deleteInterview" id=${interview.id}>Delete</a>
+                        <a href="#/users/${user.id}">Show</a> | 
+                        <a href="#/users/${user.id}/edit">Edit</a> |
+                        <a href="#/users" class="deleteUser" id=${user.id}>Delete</a>
                     </div>
                    `
                    ).join('\n ')
@@ -45,7 +37,7 @@ let ListInterviews = {
    }
     , after_render: async () => {
         
-        function deleteInterview(id){
+        function deleteUser(id){
             if(confirm("Are you sure?")){
                 sendDeleteRequest(id)
             }
@@ -53,7 +45,7 @@ let ListInterviews = {
 
         function sendDeleteRequest(id) {
             const XHR = new XMLHttpRequest();
-            XHR.open("DELETE", `http://localhost:3000/interviews/${id}.json`);
+            XHR.open("DELETE", `http://localhost:3000/users/${id}.json`);
 
             XHR.onreadystatechange = (event) => {
                 if (XHR.readyState === XMLHttpRequest.DONE) {
@@ -65,7 +57,7 @@ let ListInterviews = {
                     Errors.innerHTML = ""
                     if (status === 0 || (status >= 200 && status < 400)) {
                         Notice.innerHTML = responseJSON.notice;
-                        let element = document.getElementById(`interview - ${id}`);
+                        let element = document.getElementById(`user - ${id}`);
                         element.parentNode.removeChild(element);
                     }
                     if (responseJSON.errors) {
@@ -77,12 +69,12 @@ let ListInterviews = {
             XHR.send();
         }
 
-        let links = document.querySelectorAll(".deleteInterview");
+        let links = document.querySelectorAll(".deleteUser");
         links.forEach(link=>{
-            link.onclick = ()=>deleteInterview(link.id);
+            link.onclick = ()=>deleteUser(link.id);
         })
     }
 
 }
 
-export default ListInterviews;
+export default ListUsers;
